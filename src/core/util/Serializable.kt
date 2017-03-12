@@ -1,14 +1,20 @@
 /**
- *  @Author is flystyle
- *  Created on 05.03.17.
+ * Interface is provided for specifying serialization in inherit classes
  *
- *  @Interface Serializable is provided for specifying serialization in inherit classes
- *  @Methods serialize()
+ *  @author Alex Syrotenko (@flystyle)
+ *  @since 0.1
+ *  @version 0.1
+ *  @see serialize
  */
 interface Serializable {
    /**
-    * @Author Alex Syrotenko (@flystyle)
-    * @method serialize
+    * @author Alex Syrotenko (@flystyle)
+    *
+    * Method serializes inherit class data.
+    *
+    * @since 0.1
+    * @version 0.1
+    * @see Serializable#serialize()
     * @return String after some specific serialization in inherit class
     */
     fun serialize () : String
