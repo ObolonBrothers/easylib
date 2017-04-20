@@ -8,7 +8,8 @@
  * @see ClassicListIterator .
  */
 
-class ClassicList<E> : MutableCollection<E>, Serializable {
+open class ClassicList<E> : MutableCollection<E> {
+
 
     /**
      * Inner misc class for representation of container with data and next element reference.
@@ -137,9 +138,9 @@ class ClassicList<E> : MutableCollection<E>, Serializable {
     }
 
 
-    private var head : Node<E>? = null
-    private var tail : Node<E>? = null
-    private var _size = 0
+    protected var head : Node<E>? = null
+    protected var tail : Node<E>? = null
+    protected var _size = 0
 
     override val size: Int
         get() = this._size
@@ -293,7 +294,7 @@ class ClassicList<E> : MutableCollection<E>, Serializable {
     }
 
     /**
-     * Remove all objcets from collection.
+     * Remove all objects from collection.
      *
      * @author Alex Syrotenko (@FlyCreat1ve)
      * @since 0.1
@@ -337,19 +338,14 @@ class ClassicList<E> : MutableCollection<E>, Serializable {
         return true
     }
 
-    override fun serialize(): String {
-        // will come in version 0.2
-        TODO("not implemented")
-    }
-
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (other?.javaClass != javaClass) return false
 
         other as ClassicList<*>
 
-        if (!head!!.equals(other.head)) return false
-        if (!tail!!.equals(other.tail)) return false
+        if (head?.equals(other.head) == false) return false
+        if (tail?.equals(other.tail) == false) return false
         if (_size != other._size) return false
 
         return true
