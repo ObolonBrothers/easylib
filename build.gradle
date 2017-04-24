@@ -19,8 +19,10 @@ apply plugin: 'application'
 
 sourceSets {
     main.kotlin.srcDirs += 'src/core/base/main'
-    main.kotlin.srcDirs += 'src/core/util'
     test.kotlin.srcDirs += 'src/core/base/test'
+    main.kotlin.srcDirs += 'src/core/heaps/main'
+    test.kotlin.srcDirs += 'src/core/heaps/test'
+    main.kotlin.srcDirs += 'src/core/util'
 }
 
 sourceCompatibility = 1.8
