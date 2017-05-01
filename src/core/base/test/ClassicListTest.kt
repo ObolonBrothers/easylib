@@ -1,14 +1,12 @@
+
 import org.junit.Assert.assertEquals
 import org.junit.Test
-import sun.jvm.hotspot.utilities.Assert
+import java.util.*
 
 /**
  * @Author Alex Syrotenko (@FlyCreat1ve)
  *  Created on 05.03.17.
  *  @See ClassicListTest
- *  @Testmethod addToClassicList. It tests fucntionality of element addition to list.
- *  @Testmethod checkContains. It tests containing of element in list.
- *
  */
 
 class ClassicListTest {
@@ -16,7 +14,7 @@ class ClassicListTest {
     private val sublist = ClassicList<Int>()
     private val checklist = ClassicList<Int>()
 
-    fun equalList(checklist : List<Int>, list: LinkedList<Int>) : Boolean {
+    fun equalList(checklist : List<Int>, list: ClassicList<Int>) : Boolean {
         var currentEquality = true
 
         var checkIterator = checklist.iterator()
@@ -27,6 +25,10 @@ class ClassicListTest {
                 currentEquality = false
         }
         return currentEquality
+    }
+
+    fun genDigit(rand : Random, bound : Int) : Int {
+        return rand.nextInt(list.size - 1)
     }
 
     @Test fun addToClassicList() : Unit {
@@ -54,17 +56,38 @@ class ClassicListTest {
 
     @Test fun removeFromClassicList() : Unit {
         val len = 10
-        var checklist = mutableListOf<Int>(1, 2, 3, 4, 5, 6, 7, 8, 9, 10)
-        for (i in IntRange(1, len))
-            list.add(i)
+        val _checklist = mutableListOf<Int>(1, 2, 3, 4, 5, 6, 7, 8, 9, 10)
+        val shuffleList = mutableListOf<Int>(1, 2, 3, 4, 5, 6, 7, 8, 9, 10)
+        java.util.Collections.shuffle(shuffleList)
 
-        for (i in IntRange(1, len)) {
-            list.remove(i)
-            checklist.remove(i)
-            assertEquals(true, equalList(checklist, list))
+        list += IntRange(1, len)
+
+        for (i in IntRange(0, len - 1)) {
+            list.remove(shuffleList[i])
+            _checklist.remove(shuffleList[i])
+            assertEquals(true, equalList(_checklist, list))
         }
 
         assertEquals(list.size, 0)
+    }
+
+    @Test fun removeRandomValFromLinkedList() : Unit {
+        val len = 10
+        for (i in IntRange(1, len))
+            list.add(i)
+
+        assertEquals(list.size, len)
+
+        val randArr = arrayListOf(3, 5, 8, 9)
+        val _checklist = mutableListOf<Int>(1, 2, 3, 4, 5, 6, 7, 8, 9, 10)
+
+        for (i in IntRange(0, randArr.size - 1)) {
+            list.remove(randArr[i])
+            _checklist.remove(randArr[i])
+            assertEquals(true, equalList(_checklist, list))
+        }
+
+        assertEquals(list.size, len - 4)
     }
 
     @Test fun clearList() : Unit {
@@ -74,14 +97,6 @@ class ClassicListTest {
 
         list.clear()
         assertEquals(list.size, 0)
-    }
-
-    @Test fun filterTest() : Unit {
-        val len = 20
-        for (i in IntRange(1, len))
-            list.add(i)
-
-        println(list.filter { it -> it % 2 == 0 })
     }
 
     @Test fun retainsList() : Unit {
