@@ -1,5 +1,6 @@
 import org.junit.Assert.assertEquals
 import org.junit.Test
+import sun.jvm.hotspot.utilities.Assert
 
 /**
  * @Author Alex Syrotenko (@FlyCreat1ve)
@@ -15,6 +16,18 @@ class ClassicListTest {
     private val sublist = ClassicList<Int>()
     private val checklist = ClassicList<Int>()
 
+    fun equalList(checklist : List<Int>, list: LinkedList<Int>) : Boolean {
+        var currentEquality = true
+
+        var checkIterator = checklist.iterator()
+        var mainIterator = list.iterator()
+
+        while (checkIterator.hasNext() && mainIterator.hasNext()) {
+            if (checkIterator.next() != mainIterator.next())
+                currentEquality = false
+        }
+        return currentEquality
+    }
 
     @Test fun addToClassicList() : Unit {
         val len = 20
@@ -40,12 +53,16 @@ class ClassicListTest {
     }
 
     @Test fun removeFromClassicList() : Unit {
-        val len = 20
+        val len = 10
+        var checklist = mutableListOf<Int>(1, 2, 3, 4, 5, 6, 7, 8, 9, 10)
         for (i in IntRange(1, len))
             list.add(i)
 
-        for (i in IntRange(1, len))
+        for (i in IntRange(1, len)) {
             list.remove(i)
+            checklist.remove(i)
+            assertEquals(true, equalList(checklist, list))
+        }
 
         assertEquals(list.size, 0)
     }

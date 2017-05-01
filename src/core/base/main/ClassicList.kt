@@ -37,7 +37,7 @@ open class ClassicList<E> : MutableCollection<E> {
          * @see Node .
          */
 
-        fun accept(node : Node<T>) {
+        fun accept(node : Node<T>?) {
             next = node
         }
 
@@ -195,9 +195,10 @@ open class ClassicList<E> : MutableCollection<E> {
      */
 
     override fun remove(element: E): Boolean {
-        if(head == null) return true
+        if(head == null)
+            return false
 
-        if (head == tail) {
+        if (head == tail && head?.unwrap() == element) {
             head = null
             tail = null
             _size--
@@ -218,7 +219,7 @@ open class ClassicList<E> : MutableCollection<E> {
                 if(tail == t.next()) {
                     tail = t
                 }
-                t.next()?.next()?.let { t?.next()?.accept(it) }
+                else t.accept(t.next()!!.next())
                 _size--
                 return true
             }
