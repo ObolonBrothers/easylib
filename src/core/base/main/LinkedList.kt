@@ -400,9 +400,7 @@ open class LinkedList<E> : MutableCollection<E> {
                 if(tail == t.next()) {
                     tail = t
                 }
-                else {
-                    t.acceptTail(t.next()!!.next())
-                }
+                else t.acceptTail(t.next()!!.next())
                 _size--
                 return true
             }
