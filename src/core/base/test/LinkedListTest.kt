@@ -11,14 +11,32 @@ class LinkedListTest {
     private val sublist = LinkedList<Int>()
     private val checklist = LinkedList<Int>()
 
+    fun equalList(checklist : List<Int>, list: LinkedList<Int>) : Boolean {
+        var currentEquality = true
+
+        var checkIterator = checklist.iterator()
+        var mainIterator = list.iterator()
+
+        while (checkIterator.hasNext() && mainIterator.hasNext()) {
+            if (checkIterator.next() != mainIterator.next())
+                currentEquality = false
+        }
+        return currentEquality
+    }
+
     @Test fun addToLinkedList() : Unit {
         val len = 20
         for (i in IntRange(1, len)) {
             list.add(i)
             list.addFront(i + len)
         }
-
         Assert.assertEquals(list.size, len*2)
+
+        val checklist = listOf(40, 39, 38, 37, 36, 35, 34, 33, 32, 31, 30, 29, 28, 27, 26, 25, 24, 23, 22, 21,
+                                1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20)
+
+        Assert.assertEquals(true, equalList(checklist, list))
+
         list.clear()
         return
     }
@@ -59,18 +77,8 @@ class LinkedListTest {
         for (i in IntRange(1, 10))
             mainlist.add(i)
 
-        val equality = true
-        var currentEquality = true
 
-        var checkIterator = checklist.iterator()
-        var mainIterator = checklist.iterator()
-
-
-        while (checkIterator.hasNext() && mainIterator.hasNext()) {
-            if (checkIterator.next() != mainIterator.next())
-                currentEquality = false
-        }
-        Assert.assertEquals(equality, currentEquality)
+        Assert.assertEquals(true, equalList(checklist, list))
     }
 
     @Test fun checkLLContains(): Unit {
@@ -84,34 +92,43 @@ class LinkedListTest {
         Assert.assertEquals(list.contains(10), true)
         Assert.assertEquals(list.contains(30), false)
         Assert.assertEquals(list.containsAll(sublist), true)
-
     }
 
-    @Test fun removeFromLinkedList() : Unit {
-        val len = 20
+    @Test fun removeFromLinkedListWithOrderSave() : Unit {
+        val len = 10
         for (i in IntRange(1, len))
             list.add(i)
 
-        for (i in IntRange(1, len))
+        val checklist = mutableListOf<Int>(1, 2, 3, 4, 5, 6, 7, 8, 9, 10)
+
+        for (i in IntRange(1, len)) {
             list.remove(i)
+            checklist.remove(i)
+
+            Assert.assertEquals(true, equalList(checklist, list))
+        }
 
         Assert.assertEquals(list.size, 0)
     }
 
     @Test fun removeRandomValFromLinkedList() : Unit {
-        val len = 100
+        val len = 10
         for (i in IntRange(1, len))
             list.add(i)
 
         Assert.assertEquals(list.size, len)
 
-        val randArr = arrayListOf(4, 22, 27, 31, 37, 55, 13, 87, 3, 11)
+        val randArr = arrayListOf(2, 4, 7, 9)
+        val checklist = mutableListOf<Int>(1, 2, 3, 4, 5, 6, 7, 8, 9, 10)
 
         for (i in IntRange(0, randArr.size - 1)) {
             list.remove(randArr[i])
+            checklist.remove(randArr[i])
+
+            Assert.assertEquals(true, equalList(checklist, list))
         }
 
-        Assert.assertEquals(list.size, len - 10)
+        Assert.assertEquals(list.size, len - 4)
     }
 
     @Test fun clearLinkedList() : Unit {
