@@ -27,7 +27,7 @@ sourceSets {
 sourceCompatibility = 1.8
 
 task wrapper(type: Wrapper) {
-    gradleVersion = '3.4.1'
+    gradleVersion = '3.3'
 }
 
 repositories {
