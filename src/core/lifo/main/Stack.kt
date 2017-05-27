@@ -29,6 +29,9 @@ class Stack<E> (private var stackHead : Node<E>? = null) {
          */
         fun getElement() : E = el
 
+        fun setElement(el : E) {
+            this.el = el
+        }
         /**
          * Get link on connected Node
          */
@@ -91,9 +94,10 @@ class Stack<E> (private var stackHead : Node<E>? = null) {
      */
     fun push(element : E): Boolean {
         var current : Node<E>? = null
-        if (current != null) {
+        if (element != null) {
+            current?.setElement(element)
             stackSize += 1
-            current.setNext(stackHead)
+            current?.setNext(stackHead)
             stackHead = current
             return true
         }
