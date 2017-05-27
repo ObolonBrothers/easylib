@@ -8,7 +8,6 @@
  * @since 0.1
  * @param E the type of elements which are consists in this data structure.
  * @see Node .
- * @see StackIterator .
  */
 
 class Stack<E> (private var stackHead : Node<E>? = null) {
@@ -20,7 +19,6 @@ class Stack<E> (private var stackHead : Node<E>? = null) {
      * @since 0.1
      * @param el valuable data object
      * @see Stack .
-     * @see StackIterator .
      * @constructor creates object with data and temporary null reference for next block.
      */
     class Node<E> (private var el: E) {
