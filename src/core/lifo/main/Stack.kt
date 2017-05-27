@@ -1,4 +1,5 @@
 /**
+ * Created by akisemenovych on 02.05.2017.
  * A stack is an abstract data type that serves as a collection of elements, with two principal operations: push,
  * which adds an element to the collection, and pop, which removes the most recently added element that was not yet
  * removed.
@@ -10,7 +11,7 @@
  * @see StackIterator .
  */
 
-class Stack<E> (private var stackHead : Node<E>? = null): MutableCollection<E> {
+class Stack<E> (private var stackHead : Node<E>? = null) {
 
     /**
      * Inner misc class for representation of container with data and next element reference.
@@ -22,8 +23,9 @@ class Stack<E> (private var stackHead : Node<E>? = null): MutableCollection<E> {
      * @see StackIterator .
      * @constructor creates object with data and temporary null reference for next block.
      */
-    class Node<E> (private var el: E, private var next : Node<E>) {
+    class Node<E> (private var el: E) {
 
+        private var next : Node<E>? = null
         /**
          * Unpack element from object Node
          */
@@ -37,7 +39,7 @@ class Stack<E> (private var stackHead : Node<E>? = null): MutableCollection<E> {
         /**
          * Set link in connected Node
          */
-        fun setNext(nextEl : Node<E>) {
+        fun setNext(nextEl : Node<E>?) {
             this.next = nextEl
         }
 
@@ -46,9 +48,9 @@ class Stack<E> (private var stackHead : Node<E>? = null): MutableCollection<E> {
          */
         fun remove() {
             if (el != null) {
-                this.el = next.getElement()
-                if (next.next()?.equals(null) as Boolean)
-                this.next = next.next
+                this.el = next!!.getElement()
+                if (next!!.next()?.equals(null) as Boolean)
+                this.next = next!!.next
             }
         }
 
@@ -62,64 +64,8 @@ class Stack<E> (private var stackHead : Node<E>? = null): MutableCollection<E> {
 
         override fun hashCode(): Int {
             var result = el?.hashCode() ?: 0
-            result = 31 * result + (next.hashCode() ?: 0)
+            result = 31 * result + (next!!.hashCode() ?: 0)
             return result
-        }
-    }
-
-    /**
-     * Iterator class for Stack
-     *
-     * @author Volodymyr Semenovych (@akisemenovych).
-     * @since 0.1
-     * @param head reference to list`s first node
-     * @see Stack .
-     * @constructor References first node for it`s inner tasks.
-     */
-    class StackIterator <E> (private var head: Node<E>?) : MutableIterator<E> {
-
-        private var current : Node<E>? = null
-
-        /**
-         * Checks existences of next Stack Node
-         *
-         * @author Volodymyr Semenovych (@akisemenovych).
-         * @since 0.1
-         * @return Boolean existence flag
-         */
-        override fun hasNext(): Boolean {
-            if (current == null && head !== null)
-                return true
-            return current?.next() !== null
-        }
-
-        /**
-         *
-         * @author Volodymyr Semenovych (@akisemenovych).
-         * @since 0.1
-         * @return Next linked Node
-         */
-        override fun next() : E {
-            if (this.current == null) {
-                this.current = head
-                return this.current?.getElement()!!
-            }
-
-            if (!this.hasNext()) {
-                throw IndexOutOfBoundsException()
-            }
-            current = current!!.next()
-            return current!!.getElement()
-        }
-
-        /**
-         *
-         * Removes current Node from Stack
-         * @author Volodymyr Semenovych (@akisemenovych).
-         * @since 0.1
-         */
-        override fun remove() {
-            this.current!!.remove()
         }
     }
 
@@ -133,23 +79,23 @@ class Stack<E> (private var stackHead : Node<E>? = null): MutableCollection<E> {
      * @since 0.1
      * @return Stack size
      */
-    override val size: Int
+    val size: Int
         get() = this.stackSize
 
 
     /**
-     * Adds element into Stack
+     * Push element into Stack
      *
      * @author Volodymyr Semenovych (@akisemenovych).
      * @since 0.1
-     * @param element that needs to be added into Stack
+     * @param element that needs to be pushed into Stack
      * @return flag of action status
      */
-    override fun add(element : E): Boolean {
+    fun push(element : E): Boolean {
         var current : Node<E>? = null
         if (current != null) {
             stackSize += 1
-            current.setNext(stackHead!!)
+            current.setNext(stackHead)
             stackHead = current
             return true
         }
@@ -157,16 +103,31 @@ class Stack<E> (private var stackHead : Node<E>? = null): MutableCollection<E> {
     }
 
     /**
-     * Adds elements collection into Stack
+     * Push elements collection into Stack
      *
      * @author Volodymyr Semenovych (@akisemenovych).
      * @since 0.1
-     * @param elements collection that need to be added into Stack
+     * @param elements collection that need to be pushed into Stack
      * @return flag of action status
      */
-    override fun addAll(elements: Collection<E>): Boolean {
-        elements.forEach { el -> this.add(el) }
+    fun pushAll(elements: Collection<E>): Boolean {
+        elements.forEach { el -> this.push(el) }
         return true
+    }
+
+    /**
+    * Pop element from Stack
+    *
+    * @author Volodymyr Semenovych (@akisemenovych).
+    * @since 0.1
+    * @return element from Stack Head
+    */
+    fun pop(): E? {
+        if (stackHead == null) return null
+        var popElement = stackHead!!.getElement()
+        stackHead!!.remove()
+        stackSize--
+        return popElement
     }
 
     /**
@@ -174,10 +135,10 @@ class Stack<E> (private var stackHead : Node<E>? = null): MutableCollection<E> {
      *
      * @author Volodymyr Semenovych (@akisemenovych).
      * @since 0.1
-     * @param elements collection that need to be added into Stack
+     * @param element that need to be removed from Stack
      * @return flag of action status
      */
-    override fun remove(element: E): Boolean {
+    fun remove(element: E): Boolean {
         if (stackHead == null) return true
 
         if (stackHead?.getElement()!! == element) {
@@ -209,7 +170,7 @@ class Stack<E> (private var stackHead : Node<E>? = null): MutableCollection<E> {
      * @param elements collection that need to be removed from Stack
      * @return flag of action status
     */
-    override fun removeAll(elements: Collection<E>): Boolean {
+    fun removeAll(elements: Collection<E>): Boolean {
         elements.forEach { el -> this.remove(el) }
         return true
     }
@@ -222,7 +183,7 @@ class Stack<E> (private var stackHead : Node<E>? = null): MutableCollection<E> {
      * @param element
      * @return flag of action status
      */
-    override fun contains(element: E): Boolean {
+    fun contains(element: E): Boolean {
 
         if (stackHead?.getElement()!! == element)
             return true
@@ -244,19 +205,8 @@ class Stack<E> (private var stackHead : Node<E>? = null): MutableCollection<E> {
      * @param elements
      * @return flag of action status
      */
-    override fun containsAll(elements: Collection<E>): Boolean {
+    fun containsAll(elements: Collection<E>): Boolean {
         return !elements.none { this.contains(it) }
-    }
-
-    /**
-     * Stacks iterator
-     *
-     * @author Volodymyr Semenovych (@akisemenovych).
-     * @since 0.1
-     * @return Stacks iterator
-     */
-    override fun iterator(): MutableIterator<E> {
-        return StackIterator(stackHead)
     }
 
     /**
@@ -266,7 +216,7 @@ class Stack<E> (private var stackHead : Node<E>? = null): MutableCollection<E> {
      * @since 0.1
      * @return flag of action status
      */
-    override fun isEmpty(): Boolean {
+    fun isEmpty(): Boolean {
         return this.stackSize == 0
     }
 
@@ -276,27 +226,8 @@ class Stack<E> (private var stackHead : Node<E>? = null): MutableCollection<E> {
      * @author Volodymyr Semenovych (@akisemenovych).
      * @since 0.1
      */
-    override fun clear() {
+    fun clear() {
         this.stackHead = null
         stackSize = 0
-    }
-
-    /**
-     * Removes elements collection from Stack
-     *
-     * @author Volodymyr Semenovych (@akisemenovych).
-     * @since 0.1
-     * @param elements
-     * @return flag of action status
-     */
-    override fun retainAll(elements: Collection<E>): Boolean {
-        val localIterator = this.iterator()
-        while (localIterator.hasNext()) {
-            val elem = localIterator.next()
-            if (!elements.contains(elem)) {
-                this.remove(elem)
-            }
-        }
-        return true
     }
 }
