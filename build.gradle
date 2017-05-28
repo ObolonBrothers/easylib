@@ -23,6 +23,8 @@ sourceSets {
     test.kotlin.srcDirs += 'src/core/heaps/test'
     main.kotlin.srcDirs += 'src/core/maps/main'
     test.kotlin.srcDirs += 'src/core/maps/test'
+    main.kotlin.srcDirs += 'src/core/strings/main'
+    test.kotlin.srcDirs += 'src/core/strings/test'
     main.kotlin.srcDirs += 'src/core/util'
 
     jmh {
