@@ -12,7 +12,7 @@
  */
 
 class KMP {
-    private var R: Int = 256                        // the radix
+    private var radix: Int = 256
     private var dfa: Array<IntArray>                // the KMP automoton
 
     private var pattern: String                     // pattern string
@@ -28,17 +28,17 @@ class KMP {
         pattern = pat
 
         // build DFA from pattern
-        val m = pat.length
-        dfa = Array(R) { IntArray(m) }
+        val patternLength = pat.length
+        dfa = Array(radix) { IntArray(patternLength) }
         dfa[pat[0].toInt()][0] = 1
-        var x = 0
-        var j = 1
-        while (j < m) {
-            for (c in 0..R - 1)
-                dfa[c][j] = dfa[c][x]           // Copy mismatch cases.
-            dfa[pat[j].toInt()][j] = j + 1      // Set match case.
-            x = dfa[pat[j].toInt()][x]          // Update restart state.
-            j++
+        var lastState = 0
+        var i = 1
+        while (i < patternLength) {
+            for (j in 0..radix - 1)
+                dfa[j][i] = dfa[j][lastState]           // Copy mismatch cases.
+            dfa[pat[i].toInt()][i] = i + 1              // Set match case.
+            lastState = dfa[pat[i].toInt()][lastState]  // Update restart state.
+            i++
         }
     }
 
@@ -54,15 +54,29 @@ class KMP {
     fun search(txt: String): Int {
 
         // simulate operation of DFA on text
-        val m = pattern.length
-        val n = txt.length
-        var i: Int = 0
-        var j: Int = 0
-        while (i < n && j < m) {
-            j = dfa[txt[i].toInt()][j]
-            i++
+        var textIndex: Int = 0
+        var patternIndex: Int = 0
+        while (textIndex < txt.length && patternIndex < pattern.length) {
+            patternIndex = dfa[txt[textIndex].toInt()][patternIndex]
+            textIndex++
         }
-        if (j == m) return i - m    // found
-        return -1                   // not found
+        if (patternIndex == pattern.length) return textIndex - pattern.length       // found
+        return -1                                                                   // not found
+    }
+
+    /**
+     * Returns the index of the first occurrence of the pattern string
+     * in the text string.
+
+     * @param  text the text string
+     * *
+     * @return the index of the first occurrence of the pattern string
+     * *         in the text string; -1 if no such match
+     */
+    companion object StringExtension {
+        fun String.KMPSearchIn(text: String): Int {
+            val kmp = KMP(this)
+            return kmp.search(text)
+        }
     }
 }

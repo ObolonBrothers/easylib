@@ -96,4 +96,11 @@ class KMPTest {
             }
         }
     }
+
+    @Test fun extensionsTest(): Unit {
+        val test: String = "ab"
+        with(KMP) {
+            assertEquals(1, test.KMPSearchIn("bababa"))
+        }
+    }
 }
