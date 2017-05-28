@@ -21,7 +21,7 @@ import java.util.ArrayList
  * @param E the type of the elements which the FibonacciHeap will contain
  */
 
-class FibonacciHeap<E : Comparable<E>> : AbstractHeap<E> {
+class FibonacciHeap<E> : AbstractHeap<E> {
     /* In order for all of the Fibonacci heap operations to complete in O(1),
      * clients need to have O(1) access to any element in the heap.  We make
      * this work by having each insertion operation produce a handle to the
@@ -134,7 +134,7 @@ class FibonacciHeap<E : Comparable<E>> : AbstractHeap<E> {
      * *
      * @return A new FibonacciHeap containing all of the elements of both heaps.
      */
-    fun <E : Comparable<E>> merge(one: FibonacciHeap<E>, two: FibonacciHeap<E>): FibonacciHeap<E> {
+    fun merge(one: FibonacciHeap<E>, two: FibonacciHeap<E>): FibonacciHeap<E> {
         /* Create a new FibonacciHeap to hold the result. */
         val result = FibonacciHeap<E>()
 
