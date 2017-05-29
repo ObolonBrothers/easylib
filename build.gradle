@@ -17,6 +17,8 @@ apply plugin: 'kotlin'
 apply plugin: 'application'
 
 sourceSets {
+    main.kotlin.srcDirs += 'src/core/cryptography/main'
+    test.kotlin.srcDirs += 'src/core/cryptography/test'
     main.kotlin.srcDirs += 'src/core/base/main'
     test.kotlin.srcDirs += 'src/core/base/test'
     main.kotlin.srcDirs += 'src/core/heaps/main'
