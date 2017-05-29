@@ -6,23 +6,23 @@ import java.security.SecureRandom
  * and decrypt a message.
  *
  * @author Vasyl Antoniuk (@toniukan).
- * @since 0.1
+ * @since 0.2
  */
 
 class RSA: AbstractCryptoAlgorithm {
-    private var n: BigInteger
-    private var d: BigInteger
-    private var e: BigInteger
+    private var modulo: BigInteger = BigInteger("1")
+    private var privateKey: BigInteger = BigInteger("1")
+    private var publicKey: BigInteger = BigInteger("1")
 
     private var bitlen = 1024
 
     /**
      * Create an instance that can encrypt using someone elses public key.
      */
-    constructor(newn: BigInteger, newe: BigInteger) {
-        n = newn
-        e = newe
-        d = e.modInverse(n)
+    constructor(newModulo: BigInteger, newPublicKey: BigInteger) {
+        modulo = newModulo
+        publicKey = newPublicKey
+        privateKey = publicKey.modInverse(modulo)
     }
 
     /**
@@ -30,57 +30,47 @@ class RSA: AbstractCryptoAlgorithm {
      */
     constructor(bits: Int) {
         bitlen = bits
-        val r = SecureRandom()
-        val p = BigInteger(bitlen / 2, 100, r)
-        val q = BigInteger(bitlen / 2, 100, r)
-        n = p.multiply(q)
-        val m = p.subtract(BigInteger.ONE).multiply(q
-                .subtract(BigInteger.ONE))
-        e = BigInteger("3")
-        while (m.gcd(e).toInt() > 1) {
-            e = e.add(BigInteger("2"))
-        }
-        d = e.modInverse(m)
+        generateKeys()
     }
 
     /**
      *  Encrypt the given plaintext message.
      */
     override fun encrypt(message: String): String {
-        return BigInteger(message.toByteArray()).modPow(e, n).toString()
+        return BigInteger(message.toByteArray()).modPow(publicKey, modulo).toString()
     }
 
     /**
      * Decrypt the given ciphertext message.
      */
     override fun decrypt(message: String): String {
-        return String(BigInteger(message).modPow(d, n).toByteArray())
+        return String(BigInteger(message).modPow(privateKey, modulo).toByteArray())
     }
 
     /**
      * Generate a new public and private key set.
      */
     fun generateKeys() {
-        val r = SecureRandom()
-        val p = BigInteger(bitlen / 2, 100, r)
-        val q = BigInteger(bitlen / 2, 100, r)
-        n = p.multiply(q)
-        val m = p.subtract(BigInteger.ONE).multiply(q
-                .subtract(BigInteger.ONE))
-        e = BigInteger("3")
-        while (m.gcd(e).toInt() > 1) {
-            e = e.add(BigInteger("2"))
+        val random = SecureRandom()
+        val p = BigInteger(bitlen / 2, 100, random)
+        val q = BigInteger(bitlen / 2, 100, random)
+        modulo = p.multiply(q)
+        val m = p.subtract(BigInteger.ONE)
+                    .multiply(q.subtract(BigInteger.ONE))
+        publicKey = BigInteger("3")
+        while (m.gcd(publicKey).toInt() > 1) {
+            publicKey = publicKey.add(BigInteger("2"))
         }
-        d = e.modInverse(m)
+        privateKey = publicKey.modInverse(m)
     }
 
     /**
      * Return the modulus.
      */
-    fun getN() = n
+    fun getModulo() = modulo
 
     /**
      * Return the public key.
      */
-    fun getE() = e
+    fun getPublicKey() = publicKey
 }
