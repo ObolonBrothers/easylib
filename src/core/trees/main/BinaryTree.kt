@@ -129,6 +129,50 @@ class BinaryTree <E> : AbstractTree<E> {
     }
 
     /**
+     * Removes element by value from collection
+     *
+     * @author Yurii Yatsenko (@kyparus)
+     * @since 0.1
+     * @param value Element to delete from this collection.
+     * @see BinaryTree
+     * @return 'true' if it was deleted, otherwise 'false'
+     */
+    fun remove(value: E): Boolean {
+        var rememberedNodesNumber = nodesNumber
+        root = remove(root, value)
+        return rememberedNodesNumber != nodesNumber
+    }
+
+    private fun remove(node: BTNode<E>?, value: E): BTNode<E>? {
+        if (node?.value == value){
+            var leaf = getLeaf(node)
+            nodesNumber--
+            if (leaf == node)
+                return null
+            leaf?.left = node?.left
+            leaf?.right = node?.right
+
+            return leaf
+        }
+        var rememberedNodesNumber = nodesNumber
+        node?.left = remove(node?.left, value)
+        if (rememberedNodesNumber == nodesNumber)
+            node?.right = remove(node?.right, value)
+
+        return node
+    }
+
+    private fun getLeaf(node: BTNode<E>?): BTNode<E>? {
+        if (node == null || (node?.left == null && node?.right == null)) {
+            return node
+        }
+        if (node.left != null)
+            return getLeaf(node.left)
+        else
+            return getLeaf(node.right)
+
+    }
+    /**
      * Check if this collection doesn`t have elements.
      *
      * @author Yurii Yatsenko (@kyparus)

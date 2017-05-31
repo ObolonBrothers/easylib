@@ -43,4 +43,27 @@ class BinaryTreeTest {
         Assert.assertEquals(false, tree.search(100000))
         Assert.assertEquals(true, tree.search(-943529))
     }
+
+    @Test fun remove(): Unit {
+        val tree = BinaryTree<Int>()
+        Assert.assertEquals(false, tree.search(100))
+
+        tree.insert(4)
+        Assert.assertEquals(true, tree.remove(4))
+
+        tree.insert(4)
+        tree.insert(6)
+        Assert.assertEquals(false, tree.remove(5))
+        Assert.assertEquals(true, tree.remove(6))
+        Assert.assertEquals(1, tree.size)
+
+        tree.insert(425)
+        tree.insert(-254)
+        tree.insert(-9953458)
+        tree.insert(5349596)
+        Assert.assertEquals(true, tree.search(-9953458))
+        Assert.assertEquals(true, tree.remove(-9953458))
+        Assert.assertEquals(false, tree.search(-9953458))
+        Assert.assertEquals(4, tree.size)
+    }
 }
