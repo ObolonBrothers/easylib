@@ -12,52 +12,62 @@ class BinaryTree <E> : AbstractTree<E> {
      *
      * @author Yurii Yatsenko (@kyparus)
      * @since 0.1
-     * @param el valuable data object
-     * @see ClassicList .
-     * @see ClassicListIterator .
-     * @constructor creates object with data.
+     * @param value valuable data object
+     * @see BinaryTree .
+     * @constructor creates object with value.
      */
-    class BTNode<T> (val data: T) : Serializable {
+    class BTNode<T> (val value: T) : Serializable {
 
         override fun serialize(): String {
             return ""
         }
 
         /**
-         * Left child node
+         * Left and right children of the node.
+         *
+         * @author Yurii Yatsenko (@kyparus)
+         * @since 0.1
          */
         var left: BTNode<T>? = null
 
-        /**
-         * Right child node
-         */
         var right: BTNode<T>? = null
     }
 
     /**
-     * Root of the tree
+     * Root of the tree.
+     *
+     * @author Yurii Yatsenko (@kyparus)
+     * @since 0.1
      */
     private var root: BTNode<E>? = null
 
     /**
      * Number of nodes in the tree
+     *
+     * @author Yurii Yatsenko (@kyparus)
+     * @since 0.1
      */
-    private var nodes_number = 0
+    private var nodesNumber = 0
 
     /**
-     * Function to get number of nodes in the tree
+     * @author Yurii Yatsenko (@kyparus)
+     * @since 0.1
+     * @return number of nodes in the tree
      */
     override var size: Int = 0
-        get() = nodes_number
-
+        get() = nodesNumber
 
     /**
-     * Clear the tree
+     * Remove all objects from collection.
+     *
+     * @author Yurii Yatsenko (@kyparus)
+     * @since 0.1
+     * @see BinaryTree .
      */
     override fun clear() {
         clear(root)
         root = null
-        nodes_number = 0
+        nodesNumber = 0
     }
 
     private fun clear(node: BTNode<E>?){
@@ -70,37 +80,44 @@ class BinaryTree <E> : AbstractTree<E> {
     }
 
     /**
-     * Function to insert data to the tree
+     * Function to insert element to the tree
+     *
+     * @author Yurii Yatsenko (@kyparus)
+     * @since 0.1
+     * @param value Element to insert in this collection.
+     * @see BinaryTree
      */
-    override fun insert(data: E) {
-        root = insert(root, data)
-        nodes_number++
+    override fun insert(value: E) {
+        root = insert(root, value)
+        nodesNumber++
     }
 
-    /* Function to insert data recursively */
-    private fun insert(_node: BTNode<E>?, data: E): BTNode<E> {
+    private fun insert(_node: BTNode<E>?, value: E): BTNode<E> {
         var node = _node
         if (node == null) {
-            node = BTNode<E>(data)
+            node = BTNode<E>(value)
         } else {
             if (node.right == null)
-                node.right = insert(node.right, data)
+                node.right = insert(node.right, value)
             else
-                node.left = insert(node.left, data)
+                node.left = insert(node.left, value)
         }
         return node
     }
 
     /**
-     * Returns 'true' if value is in the collection, otherwise 'false'
+     * @author Yurii Yatsenko (@kyparus)
+     * @since 0.1
+     * @param value Element to insert in this collection.
+     * @see BinaryTree
+     * @return 'true' if value is in the collection, otherwise 'false'
      */
     override fun search(value: E): Boolean {
         return search(root, value)
     }
 
-    /* Function to search for an element recursively */
     private fun search(_root: BTNode<E>?, value: E): Boolean {
-        if (_root?.data == value)
+        if (_root?.value == value)
             return true
         if (_root?.left != null)
             if (search(_root?.left, value))
@@ -112,7 +129,11 @@ class BinaryTree <E> : AbstractTree<E> {
     }
 
     /**
-     *  Function to check if tree is empty
+     * Check if this collection doesn`t have elements.
+     *
+     * @author Yurii Yatsenko (@kyparus)
+     * @since 0.1
+     * @see BinaryTree .
      */
     override val isEmpty: Boolean
         get() = root == null

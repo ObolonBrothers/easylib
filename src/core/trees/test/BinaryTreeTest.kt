@@ -21,9 +21,9 @@ class BinaryTreeTest {
         val tree = BinaryTree<Double>()
         Assert.assertEquals(0, tree.size)
 
-        for(i in 0..23){
+        for(i in 0..23)
             tree.insert(10000 * Math.random())
-        }
+
         Assert.assertEquals(24, tree.size)
         tree.clear()
         Assert.assertEquals(0, tree.size)
