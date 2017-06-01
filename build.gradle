@@ -17,6 +17,8 @@ apply plugin: 'kotlin'
 apply plugin: 'application'
 
 sourceSets {
+    main.kotlin.srcDirs += 'src/core/cryptography/main'
+    test.kotlin.srcDirs += 'src/core/cryptography/test'
     main.kotlin.srcDirs += 'src/core/base/main'
     test.kotlin.srcDirs += 'src/core/base/test'
     main.kotlin.srcDirs += 'src/core/heaps/main'
@@ -25,6 +27,8 @@ sourceSets {
     test.kotlin.srcDirs += 'src/core/maps/test'
     main.kotlin.srcDirs += 'src/core/trees/main'
     test.kotlin.srcDirs += 'src/core/trees/test'
+    main.kotlin.srcDirs += 'src/core/strings/main'
+    test.kotlin.srcDirs += 'src/core/strings/test'
     main.kotlin.srcDirs += 'src/core/util'
 
     jmh {
