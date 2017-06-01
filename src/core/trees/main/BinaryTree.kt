@@ -172,6 +172,7 @@ open class BinaryTree <E> : AbstractTree<E> {
             return getLeaf(node.right)
 
     }
+
     /**
      * Check if this collection doesn`t have elements.
      *
