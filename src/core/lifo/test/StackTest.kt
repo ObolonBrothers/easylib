@@ -42,6 +42,13 @@ class StackTest {
             Assert.assertEquals(stack.size, 0)
         }
 
+        @Test fun peekStack() : Unit {
+            val len = 10
+            for (i in IntRange(1, len))
+                stack.push(i)
+            Assert.assertEquals(stack.peek(), 10)
+        }
+
         @Test fun clearStack() : Unit {
             val len = 20
             for (i in IntRange(1, len))

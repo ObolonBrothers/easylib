@@ -164,51 +164,14 @@ class Stack<E> (private var stackHead : Node<E>? = null) {
     }
 
     /**
-     *
-     * Remove elements collection from Stack
-     *
-     * @author Volodymyr Semenovych (@akisemenovych).
-     * @since 0.1
-     * @param elements collection that need to be removed from Stack
-     * @return flag of action status
-    */
-    fun removeAll(elements: Collection<E>): Boolean {
-        elements.forEach { el -> this.remove(el) }
-        return true
-    }
-
-    /**
-     * Checks if element contains in Stack
+     * Return first (Head element) from Stack without remove.
      *
      * @author Volodymyr Semenovych (@akisemenovych).
      * @since 0.1
-     * @param element
-     * @return flag of action status
+     * @return first (Head element) from Stack.
      */
-    fun contains(element: E): Boolean {
-
-        if (stackHead?.getElement()!! == element)
-            return true
-
-        var temp = stackHead
-        while (temp?.next() != null) {
-            if (temp.getElement()!! == element)
-                return true
-            else temp = temp.next()
-        }
-        return false
-    }
-
-    /**
-     * Checks if elements collection contains in Stack
-     *
-     * @author Volodymyr Semenovych (@akisemenovych).
-     * @since 0.1
-     * @param elements
-     * @return flag of action status
-     */
-    fun containsAll(elements: Collection<E>): Boolean {
-        return !elements.none { this.contains(it) }
+    fun peek(): E? {
+        return this.stackHead.getElement()
     }
 
     /**
