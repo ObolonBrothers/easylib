@@ -111,21 +111,21 @@ class Queue<E> (private var queueHead : Node<E>? = null, private var queueTail :
      * @return flag of action status
      */
     override fun add(element : E): Boolean {
-        if (element != null) {
-            var current = Node(element)
+        var current = Node(element)
+        if (queueHead == null) {
+            queueHead = current
             queueSize += 1
-            if (queueHead == null) {
-                queueHead = current
-                return true
-            } else if (queueTail == null) {
-                queueTail = current
-                queueHead?.setNext(queueTail)
-                return true
-            } else {
-                queueTail?.setNext(current)
-                queueTail = current
-                return true
-            }
+            return true
+        } else if (queueTail == null) {
+            queueTail = current
+            queueHead?.setNext(queueTail)
+            queueSize += 1
+            return true
+        } else {
+            queueTail?.setNext(current)
+            queueTail = current
+            queueSize += 1
+            return true
         }
         return false
     }

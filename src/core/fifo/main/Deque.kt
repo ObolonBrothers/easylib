@@ -20,7 +20,7 @@ class Deque<E> (private var dequeHead : Node<E>? = null, private var dequeTail :
      * @author Volodymyr Semenovych (@akisemenovych).
      * @since 0.1
      * @param el valuable data object
-     * @see Queue .
+     * @see Deque .
      * @constructor creates object with data and temporary null reference for next block.
      */
     class Node<E> (private var el: E) : AbstractQueue.QueueNode<E>(el) {
@@ -127,21 +127,21 @@ class Deque<E> (private var dequeHead : Node<E>? = null, private var dequeTail :
      * @return flag of action status
      */
     override fun add(element : E): Boolean {
-        if (element != null) {
-            var current = Node(element)
+        var current = Node(element)
+        if (dequeHead == null) {
+            dequeHead = current
             queueSize += 1
-            if (dequeHead == null) {
-                dequeHead = current
-                return true
-            } else if (dequeTail == null) {
-                dequeTail = current
-                dequeHead?.setNext(dequeTail)
-                return true
-            } else {
-                dequeTail?.setNext(current)
-                dequeTail = current
-                return true
-            }
+            return true
+        } else if (dequeTail == null) {
+            dequeTail = current
+            dequeHead?.setNext(dequeTail)
+            queueSize += 1
+            return true
+        } else {
+            dequeTail?.setNext(current)
+            dequeTail = current
+            queueSize += 1
+            return true
         }
         return false
     }
@@ -156,18 +156,17 @@ class Deque<E> (private var dequeHead : Node<E>? = null, private var dequeTail :
      */
     fun addToHead(element : E): Boolean {
         var current : Node<E>? = null
-        if (element != null) {
-            current?.setElement(element)
+        current?.setElement(element)
+        if (dequeHead == null) {
+            dequeHead = current
             queueSize += 1
-            if (dequeHead == null) {
-                dequeHead = current
-                return true
-            } else {
-                dequeHead?.setPrev(current)
-                current?.setNext(dequeHead)
-                dequeHead = current
-                return true
-            }
+            return true
+        } else {
+            dequeHead?.setPrev(current)
+            current?.setNext(dequeHead)
+            dequeHead = current
+            queueSize += 1
+            return true
         }
         return false
     }

@@ -57,8 +57,10 @@ class DequeTest {
         for (i in IntRange(1, len))
             deque.add(i)
 
-        Assert.assertEquals(deque.poll(), 1)
-        Assert.assertEquals(deque.size, 9)
+        for (i in IntRange(1, len)) {
+            Assert.assertEquals(deque.poll(), i)
+            Assert.assertEquals(deque.size, len-i)
+        }
     }
 
     @Test fun pollFromTailCheck() : Unit {
@@ -66,7 +68,9 @@ class DequeTest {
         for (i in IntRange(1, len))
             deque.add(i)
 
-        Assert.assertEquals(deque.pollFromTail(), 10)
-        Assert.assertEquals(deque.size, 9)
+        for (i in IntRange(1, len)) {
+            Assert.assertEquals(deque.pollFromTail(), len + 1 - i)
+            Assert.assertEquals(deque.size, len-i)
+        }
     }
 }

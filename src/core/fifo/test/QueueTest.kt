@@ -39,7 +39,9 @@ class QueueTest {
         for (i in IntRange(1, len))
             queue.add(i)
 
-        Assert.assertEquals(queue.poll(), 1)
-        Assert.assertEquals(queue.size, 9)
+        for (i in IntRange(1, len)) {
+            Assert.assertEquals(queue.poll(), i)
+            Assert.assertEquals(queue.size, len-i)
+        }
     }
 }
