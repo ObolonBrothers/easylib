@@ -18,7 +18,7 @@ interface AbstractTree<E> {
     /**
      * Adds a value to tree.
      */
-    fun insert(data: E)
+    fun insert(value: E)
 
     /**
      * Returns 'true' if value is in the collection, otherwise 'false'
