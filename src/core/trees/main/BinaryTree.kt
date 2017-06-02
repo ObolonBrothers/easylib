@@ -17,7 +17,7 @@ open class BinaryTree <E> : AbstractTree<E> {
      * @see BinaryTree .
      * @constructor creates object with value.
      */
-  
+
     internal class BTNode<T> (val value: T) : Serializable {
 
         override fun serialize(): String {
@@ -174,6 +174,7 @@ open class BinaryTree <E> : AbstractTree<E> {
             return getLeaf(node.right)
 
     }
+
     /**
      * Check if this collection doesn`t have elements.
      *
