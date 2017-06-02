@@ -5,6 +5,7 @@
  * @since 0.1
  * @param E type of elements which represents the data.
  */
+
 open class BinaryTree <E> : AbstractTree<E> {
 
     /**
@@ -16,6 +17,7 @@ open class BinaryTree <E> : AbstractTree<E> {
      * @see BinaryTree .
      * @constructor creates object with value.
      */
+
     internal class BTNode<T> (val value: T) : Serializable {
 
         override fun serialize(): String {
